@@ -1,0 +1,56 @@
+#include <stdio.h>
+#define M 11
+
+int h1(int key) {
+    int x = (key + 7) * (key + 7);
+    x = x / 16;
+    x = x + key;
+    x = x % M;
+    return x;
+}
+void insert(int key, int hash_table[]) {
+    int home_slot = h1(key);
+    int probe_slot = home_slot;
+    while (hash_table[probe_slot] != -1) {
+        probe_slot = (probe_slot + 1) % M;
+        if (probe_slot == home_slot) {
+            printf("Hash table is full\n");
+            return;
+        }
+    }
+    hash_table[probe_slot] = key;
+}
+
+void print_hash_table(int hash_table[]) {
+    int i;
+    printf("Slot 0 1 2 3 4 5 6 7 8 9 10\n");
+    printf("Contents ");
+    for (i = 0; i < M; i++) {
+        printf("%d ", hash_table[i]);
+    }
+    printf("\n");
+}
+
+int main() {
+    int hash_table[M];
+    int i;
+    for (i = 0; i < M; i++) {
+        hash_table[i] = -1;
+    }
+
+    insert(43, hash_table);
+    insert(23, hash_table);
+    insert(1, hash_table);
+    insert(0, hash_table);
+    insert(15, hash_table);
+    insert(31, hash_table);
+    insert(4, hash_table);
+    insert(7, hash_table);
+    insert(11, hash_table);
+    insert(3, hash_table);
+
+    print_hash_table(hash_table);
+    return 0;
+}
+
+
